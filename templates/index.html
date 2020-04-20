@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block content %}
+{% if session['logged_in'] %}
+   
+	{% if data %}
+		<table>
+			{% for key, value in data.items(): %}
+				<tr>
+					<td>{{key}}</td><td>{{value}}</td>
+				</tr>
+			{% endfor %}
+		</table>
+	{% else %}
+
+	<a href="/logout">Logout</a> <br> <br>
+	<button id="deactivate">Deactivate</button> <br> <br>
+	<form action="" method="POST">
+	  <input type="text" name="country" placeholder="Country">
+	  <input type="submit" value="Finds">
+	</form>
+
+	<script>
+		document.getElementById('deactivate').addEventListener('click', function(e) {
+			fetch('/deactivate/', {
+				method: 'DELETE',
+				}).then(res => {
+					window.open('/', '_self');
+				})
+			});
+	</script>
+
+	{% endif %}
+
+{% else %}
+<p>Not login!</p>
+
+<a href="/login">Login</a> 
+<a href="/register">Register</a>
+<a href="/forgot">Forgot Password</a>
+
+{% endif %}
+{% endblock %}

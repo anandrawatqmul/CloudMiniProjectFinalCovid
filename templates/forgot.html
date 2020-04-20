@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block content %}
+{% if session['logged_in'] %}
+<p>Oh no Dont show page</p>
+{% else %}
+
+<h2>Forgot</h2>
+<form>
+  <input type="username" name="username" placeholder="Username">
+  <input type="password" name="password" placeholder="Password">
+  <input type="submit" value="Update">
+  <p id="message"></p>
+</form>
+<p>{{data}}</p>
+<script>
+  document.querySelector('input[type="submit"]').addEventListener('click', function submit(e) {
+    e.preventDefault();
+    fetch('/forgot/', {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        username: this.parentElement.querySelector('input[type="username"]').value,
+        password: this.parentElement.querySelector('input[type="password"]').value
+      })
+    }).then(res => {
+      document.getElementById('message').innerHTML = 'Updated';
+    })
+  });
+</script>
+{% endif %}
+{% endblock %}
